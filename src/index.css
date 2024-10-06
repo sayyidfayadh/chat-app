@@ -1,0 +1,7 @@
+body{
+  background-image: url("/media/black_waves_4k_hd_black.jpg");
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

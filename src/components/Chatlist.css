@@ -1,0 +1,35 @@
+.avi{
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+}
+.onechat{
+  cursor: pointer;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid grey;
+}
+/* .chatlist{
+  height: 68vh;
+    overflow:scroll ;
+  overflow-x: hidden;
+} */
+/* width */
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0); 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background:white; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
