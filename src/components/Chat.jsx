@@ -1,6 +1,26 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Chat.css";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../lib/firebase";
+
 function Chat() {
+  const[chat,setChat]=useState()
+  const endRef=useRef(null)
+  useEffect(()=>{
+    setTimeout(() => {
+      endRef.current?.scrollIntoView({behavior:"smooth"})
+    }, 500); 
+  })
+  useEffect(()=>{
+    const unSub=onSnapshot(doc(db,"chats","jKlkltbNpWs9v7T5TG9z"),(res)=>{
+      setChat(res.data())
+    })
+    return()=>{
+      unSub()
+    }
+  },[])
+  console.log(chat);
+  
   return (
     <div className="chat">
       {/* header */}
@@ -80,7 +100,20 @@ function Chat() {
             <span>a min ago</span>
           </div>
         </div>
+        <div className="message">
+          <img src="./media/avatar.png" alt="" />
+          <div className="texts">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores at
+            soluta dolor ea magni repudiandae maiores. Voluptatem tenetur odit
+            animi autem, iste illum rem libero. Recusandae esse veniam a
+            distinctio?
+            <span>a min ago</span>
+          </div>
+        </div>
+        <div ref={endRef}></div>
       </div>
+      
+     
 
       {/* bottom */}
       <div className="inputbar ">

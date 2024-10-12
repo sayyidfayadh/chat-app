@@ -14,14 +14,16 @@ import { useUserStore } from "./lib/userStore";
 import { Route, Routes } from "react-router-dom";
 
 function App() {
-  const [addContact,setAddContact]=useState(false);
+ 
   const {currentUser,isLoading,fetchUserInfo}=useUserStore()
-  console.log(currentUser);
+  // console.log(currentUser);
+  
   
   
 useEffect(() => {
   const unSub=onAuthStateChanged(auth,(user)=>{
     fetchUserInfo(user?.uid)
+    // console.log(user);
      })
 
   return () => {
@@ -47,18 +49,8 @@ if (isLoading) return <div className="loading"><div className="contain"><h1>Load
            </div>
               <h3 className="mt-2 text-light">Chats</h3>
               <hr />
-              <div className="d-flex ms-3">
-                {" "}
-                <img src="/media/search.png" width={"30px"} height={'35px'} alt="" className="me-2" />
-                <input
-                  type="text"
-                  className="form-control w-75"
-                  placeholder=" search chat "
-                />
-                <Button className="ms-3 btn btn btn-light" onClick={()=>{setAddContact(!addContact)}} >{addContact?"-":"+"}</Button>{" "}
-                 {addContact?<AddUser/>:<></>}
-              </div>
-              <hr/>
+             
+              
               <Row>
                 <Row className='mainchatlist'>
                   <Chatlist />

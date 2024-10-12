@@ -1,6 +1,8 @@
 body{
-  background-image: url("/media/black_waves_4k_hd_black.jpg");
+  background-image: url("/media/smooth-black-concrete-wall-background.jpg");
   background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;

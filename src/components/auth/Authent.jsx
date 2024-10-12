@@ -6,10 +6,9 @@ import './Authent.css'
 import { toast } from "react-toastify";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth'
 
-
 import Notifications from "../Notifications";
 import { auth, db } from "../../lib/firebase";
-import { doc, setDoc } from "@firebase/firestore";
+import { collection, doc, getDocs, query, setDoc, where } from "@firebase/firestore";
 import upload from "../../lib/upload";
 function Authent() {
   const[register,setAuth]=useState(false)
@@ -30,8 +29,14 @@ function Authent() {
      toast.warn("Fill empty fields")
      return;
     }
-   
-    else{
+    
+   const userREf=collection(db,"users")
+   const q=query(userREf,where("username","==",username))
+   const querySnapshot=await getDocs(q)
+   if(!querySnapshot.empty){
+    return toast.warn("username not available")
+   }
+
       try {
         const res=await createUserWithEmailAndPassword(auth,email,password)
         let imgURL = null; 
@@ -63,7 +68,7 @@ function Authent() {
         toast.error(error.message)
       }
       
-    }
+    
   }
   const handleLogin=async (e)=>{
     const {email,password}=userData
