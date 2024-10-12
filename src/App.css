@@ -3,12 +3,21 @@
   background: linear-gradient(135deg,rgba(255, 255, 255, 0),rgba(255, 255, 255, 0));
   backdrop-filter: blur(10px);
   max-height: 200vh;
+  min-width: 50vw;
   -webkit-backdrop-filter: blur(10px);
   box-shadow:0 4px 8px 1px rgba(0, 0, 0, 0.383)  ;
 }
+@media (max-width: 768px) {
+  .contain {
+    min-width: 100vw; /* Full width for mobile screens */
+    max-height: 100vh; /* You can adjust the height if needed */
+    padding: 0; /* Remove any extra padding for mobile */
+    box-shadow: none; /* Optionally reduce shadow for mobile for a cleaner look */
+  }
+}
 .mainchatlist{
   min-height: 60vh;
-  min-width: 40vw;
+  min-width: 50vw;
   overflow:scroll ;
   overflow-x: hidden;
 }

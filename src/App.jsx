@@ -45,7 +45,7 @@ function App() {
       {currentUser ? (
         <Container className="contain  ">
           
-          <Row className="" style={{ height: "100vh",width:"50vw" }}>
+          <Row className="" style={{ height: "100vh",width:"" }}>
           {!chatId&&
             <Col md={12} sm={12} className=" ">
               <div className="userdata d-flex flex-wrap align-items-center justify-content-between">
@@ -64,7 +64,7 @@ function App() {
                   Log Out
                 </button>
               </div>
-              <h3 className="mt-2 text-light">Chats</h3>
+              <h3 className="mt-2 text-light text-center">Chats</h3>
               <hr />
               
                 <Row className="mainchatlist">

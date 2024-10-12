@@ -44,12 +44,12 @@ function Chatlist() {
     
     
     <div className="chatlist">
-       <div className="d-flex search ms-3">
+       <div className="d-flex justify-content-between search ms-3">
                 {" "}
                 <img src="/media/search.png" width={"30px"} height={'35px'} alt="" className="me-2" />
                 <input
                   type="text"
-                  className="form-control  w-75"
+                  className="form-control  w-100"
                   placeholder=" search chat "
                 />
                 <Button className="ms-3 btn btn-light" onClick={()=>{setAddContact(!addContact)}} >{addContact?"-":"+"}</Button>{" "}
