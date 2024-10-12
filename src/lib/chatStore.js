@@ -1,29 +1,46 @@
 import { create } from "zustand";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "./firebase";
+import { useUserStore } from "./userStore";
 export const useChatStore = create((set) => ({
   chatId:"",
   user:"",
   isCurrentUserBlocked:false,
   isReceiverBlocked:false,
-  fetchUserInfo:async (uid)=>{
-    if(!uid){
-      set({currentUser:null,isLoading:false})
+  selectChat:(chatId,user)=>{
+    const currentUser=useUserStore.getState().currentUser
+    // current-user blocked
+    if(user.blocked.includes(currentUser.id)){
+      return set({
+      chatId,
+      user:null,
+      isReceiverBlocked:false,
+      isCurrentUserBlocked:true
+      })
     }
-    try {
-      const docRef = doc(db, "users", uid);
-      const docSnap = await getDoc(docRef);
-      
-      if (docSnap.exists()) {
-        set({currentUser:docSnap.data(),isLoading:false})
-      }
-      else{
-        set({currentUser:null,isLoading:false})
-      }
-    } catch (error) {
-      console.log(error );
-      
-      return set({currentUser:null,isLoading:false})
+    // user blocked
+   else if(currentUser.blocked.includes(user.id)){
+      return set({
+      chatId,
+      user:null,
+      isReceiverBlocked:true,
+      isCurrentUserBlocked:false
+      })
     }
-  } 
+    else{
+     return set({
+        chatId,
+        user,
+        isCurrentUserBlocked:false,
+        isReceiverBlocked:false
+
+      })
+    }
+  },
+  deSelectChat:()=>{
+    set(state=>({...state,chatId:null}))
+  },
+  blockAndUnblock:()=>{
+    set(state=>({...state,isReceiverBlocked:!state.isReceiverBlocked}))
+  }
 }))

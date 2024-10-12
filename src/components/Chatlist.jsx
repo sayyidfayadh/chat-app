@@ -5,11 +5,13 @@ import { useUserStore } from "../lib/userStore";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { Button } from "react-bootstrap";
+import { useChatStore } from "../lib/chatStore";
 
 function Chatlist() {
   const [chats, setChats] = useState([]);
   const [addContact,setAddContact]=useState(false);
   const { currentUser } = useUserStore();
+  const {selectChat}=useChatStore()
   //chat fetch
   useEffect(() => {
     const unsub = onSnapshot(
@@ -33,19 +35,12 @@ function Chatlist() {
     };
   }, [currentUser.id]);
   // console.log(chats);
-  //userfetch
-  // useEffect(()=>{
-  //   const unsub = onSnapshot(doc(db, "users", currentUser.id), (doc) => {
-  //    setChats(doc.data())
-  // });
-  // return()=> {
-  //   unsub()
-  // }
-  // },[currentUser.id])
-
+  const handleSelect=async (chat)=>{
+    console.log("hi");
+    selectChat(chat.chatId,chat.user)
+  }
   return (
     <>
-    
     
     
     <div className="chatlist">
@@ -62,7 +57,7 @@ function Chatlist() {
       </div>
       <hr />
       {chats?.map((chat) => (
-        <div className="onechat d-flex p-2 " key={chat.chatId}>
+        <div className="onechat d-flex p-2 " key={chat.chatId} onClick={()=>handleSelect(chat)}>
           <img
             className="avi"
             height={"40px"}

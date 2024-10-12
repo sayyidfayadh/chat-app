@@ -12,11 +12,14 @@ import Chat from "./components/Chat";
 import AddUser from "./components/AddUser";
 import { useUserStore } from "./lib/userStore";
 import { Route, Routes } from "react-router-dom";
+import { useChatStore } from "./lib/chatStore";
 
 function App() {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
   // console.log(currentUser);
-
+ const{chatId}=useChatStore()
+ console.log(chatId);
+ 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
       fetchUserInfo(user?.uid);
@@ -41,8 +44,10 @@ function App() {
       {" "}
       {currentUser ? (
         <Container className="contain  ">
+          
           <Row className="" style={{ height: "" }}>
-            <Col md={5} sm={12} className="border ">
+          {!chatId&&
+            <Col md={12} sm={12} className="border ">
               <div className="userdata d-flex flex-wrap align-items-center justify-content-between">
                 <div className="imgname d-flex flex-wrap  align-items-center">
                   <img
@@ -64,12 +69,16 @@ function App() {
               
                 <Row className="mainchatlist">
                   <Chatlist />
+                  
                 </Row>
             
             </Col>
-            <Col md={7} sm={12} className="border">
-              <Chat />
+}
+            {chatId&&
+            <Col md={12} sm={12} className="border">
+               <Chat />
             </Col>
+}
           </Row>
         </Container>
       ) : (

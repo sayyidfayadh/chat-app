@@ -8,6 +8,7 @@
 }
 .mainchatlist{
   min-height: 60vh;
+  min-width: 40vw;
   overflow:scroll ;
   overflow-x: hidden;
 }

@@ -2,9 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import "./Chat.css";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../lib/firebase";
+import { useUserStore } from "../lib/userStore";
+import { useChatStore } from "../lib/chatStore";
 
 function Chat() {
-  const[chat,setChat]=useState()
+  const[chat,setChat]=useState("")
+  const {chatId}=useChatStore()
+  const{deSelectChat}=useChatStore()
+  // console.log(chatId);
+  
   const endRef=useRef(null)
   useEffect(()=>{
     setTimeout(() => {
@@ -12,19 +18,29 @@ function Chat() {
     }, 500); 
   })
   useEffect(()=>{
-    const unSub=onSnapshot(doc(db,"chats","jKlkltbNpWs9v7T5TG9z"),(res)=>{
+    if (!chatId) return;
+    const unSub=onSnapshot(doc(db,"chats",chatId),(res)=>{
       setChat(res.data())
     })
     return()=>{
       unSub()
     }
-  },[])
-  console.log(chat);
-  
+  },[chatId])
+  const setVisibility={
+    
+  }
+  // console.log(chat);
+  if (!chatId) {
+    return null; // Return null when no chatId, nothing will be rendered
+  }
+
   return (
+    
     <div className="chat">
+      {chatId&&(<>
       {/* header */}
       <div className="header p-3 d-flex align-items-center justify-content-between">
+      <button className="btn btn-light btn-sm" onClick={deSelectChat}><i className="fa fa-arrow-left" ></i></button>
         <img
           className="avi"
           height={"70px"}
@@ -33,18 +49,6 @@ function Chat() {
         />
         <h3>It Is Horse</h3>
         <div className="d-flex gap-5">
-          <img
-            className=""
-            height={"20px"}
-            src="/media/phone.png"
-            alt="PHONE"
-          />
-          <img
-            className=""
-            height={"20px"}
-            src="/media/video.png"
-            alt="VIDEO"
-          />
           <img className="" height={"20px"} src="/media/info.png" alt="info" />
         </div>
       </div>
@@ -130,6 +134,7 @@ function Chat() {
           <i className="fa-solid fa-paper-plane text-light"></i> Send
         </button>
       </div>
+     </> )}
     </div>
   );
 }
