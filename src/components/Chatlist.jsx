@@ -69,7 +69,7 @@ function Chatlist() {
             src={chat.user.avi || "/media/download.png"}
             alt="sss"
           />
-          <p className="ms-4 " style={{ fontSize: "1.1vw" }}>
+          <p className="ms-4 " style={{ fontSize: "2.5vh" }}>
             {chat.user.username} <br />
             <span className="fs-6" style={{ fontWeight: "lighter" }}>
               {chat.lastmessage}

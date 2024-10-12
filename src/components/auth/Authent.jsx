@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import './Authent.css'
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth'
 
 import Notifications from "../Notifications";
@@ -97,9 +97,9 @@ function Authent() {
   return (
     <div>
       <div className=" ">
-        <div className="container w-50">
+        <div className="container p-5">
           <div className="card shadow p-5  mt-5  d-flex justify-content-center " style={{border:"1px solid white"}}>
-          <Notifications/>
+        <ToastContainer position="top-center" autoClose={500}/>
             <div className="row align-items-center " style={{minHeight:'50vh'}}>
               
                 <h1 className="fw-bolder text-center ">
