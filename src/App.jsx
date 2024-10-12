@@ -45,9 +45,9 @@ function App() {
       {currentUser ? (
         <Container className="contain  ">
           
-          <Row className="" style={{ height: "" }}>
+          <Row className="" style={{ height: "100vh",width:"50vw" }}>
           {!chatId&&
-            <Col md={12} sm={12} className="border ">
+            <Col md={12} sm={12} className=" ">
               <div className="userdata d-flex flex-wrap align-items-center justify-content-between">
                 <div className="imgname d-flex flex-wrap  align-items-center">
                   <img
@@ -75,7 +75,7 @@ function App() {
             </Col>
 }
             {chatId&&
-            <Col md={12} sm={12} className="border">
+            <Col md={12} sm={12} className="">
                <Chat />
             </Col>
 }
