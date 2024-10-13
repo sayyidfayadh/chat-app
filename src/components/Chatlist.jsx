@@ -43,7 +43,7 @@ function Chatlist() {
     <>
     
     
-    <div className="chatlist">
+    <div className="chatlist p-2">
        <div className="d-flex justify-content-between search ms-3">
                 {" "}
                 <img src="/media/search.png" width={"30px"} height={'35px'} alt="" className="me-2" />

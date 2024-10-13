@@ -43,7 +43,7 @@ function App() {
     <>
       {" "}
       {currentUser ? (
-        <Container className="contain  ">
+        <Container className="contain  p-2">
           
           <Row className="" style={{ height: "100vh",width:"" }}>
           {!chatId&&
@@ -67,7 +67,7 @@ function App() {
               <h3 className="mt-2 text-light text-center">Chats</h3>
               <hr />
               
-                <Row className="mainchatlist">
+                <Row className="mainchatlist p-2">
                   <Chatlist />
                   
                 </Row>
