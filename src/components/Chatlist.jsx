@@ -61,13 +61,15 @@ function Chatlist() {
           <img
             className="avi"
             height={"40px"}
-            src={chat.user.avi || "/media/download.png"}
+            src={chat.user.avi || "/media/avatar.png"}
             alt="sss"
           />
           <p className="ms-4 " style={{ fontSize: "2.5vh" }}>
             {chat.user.username} <br />
             <span className="fs-6" style={{ fontWeight: "lighter" }}>
-              {chat.lastmessage}
+     <div className="d-flex align-items-center gap-2">      
+       <i class="fa-solid fa-check-double fa-xs" style={{color:chat?.isSeen?"skyblue":"greenyellow"}}></i>
+     {chat?.lastMessage}</div> 
             </span>{" "}
           </p>
         </div>

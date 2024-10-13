@@ -6,7 +6,7 @@ import './Authent.css'
 import { toast, ToastContainer } from "react-toastify";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth'
 
-import Notifications from "../Notifications";
+// import Notifications from "../Notifications";
 import { auth, db } from "../../lib/firebase";
 import { collection, doc, getDocs, query, setDoc, where } from "@firebase/firestore";
 import upload from "../../lib/upload";

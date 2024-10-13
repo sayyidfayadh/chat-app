@@ -1,15 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Chat.css";
-import { doc, onSnapshot } from "firebase/firestore";
+import { arrayUnion, doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { useUserStore } from "../lib/userStore";
 import { useChatStore } from "../lib/chatStore";
 
 function Chat() {
   const[chat,setChat]=useState("")
-  const {chatId}=useChatStore()
+  const[envelope,setEnvelope]=useState("")
+  const {chatId,user}=useChatStore()
   const{deSelectChat}=useChatStore()
+  const {currentUser}=useUserStore()
   // console.log(chatId);
+  // console.log(user);
+
   
   const endRef=useRef(null)
   useEffect(()=>{
@@ -26,10 +30,40 @@ function Chat() {
       unSub()
     }
   },[chatId])
-  const setVisibility={
-    
-  }
+
+
   // console.log(chat);
+  const handleSend=async ()=>{
+    if(envelope==="") return;
+    try {
+      await updateDoc(doc(db,"chats",chatId),{
+        messages:arrayUnion({
+          senderId:currentUser.id,
+          envelope,
+          createdAt:new Date()
+        })
+      })
+      
+      const userIDs=[currentUser.id,user.id] //array of ids to update sender and receiver using for each
+     userIDs.forEach(async (id)=>{
+      const userChatsRef=doc(db,"userchats",currentUser.id)
+      const userChatsSnap=await getDoc(userChatsRef)
+      if(userChatsSnap.exists()){
+        const userChatsData=userChatsSnap.data()
+        // console.log(userChatsData);
+        const chatIndex=userChatsData.chats.findIndex(chatofchats=>chatofchats.chatId===chatId)
+         userChatsData.chats[chatIndex].lastMessage=envelope
+         userChatsData.chats[chatIndex].isSeen=id===currentUser.id?true:false; //id conditionally to set seen for sender and not seen for user
+         userChatsData.chats[chatIndex].updatedAt= Date.now() 
+         await updateDoc(userChatsRef,{
+          chats:userChatsData.chats,
+         })       
+      }
+     })
+    } catch (error) {
+      console.error(error);
+    }
+  }
   if (!chatId) {
     return null; // Return null when no chatId, nothing will be rendered
   }
@@ -44,10 +78,10 @@ function Chat() {
         <img
           className="avi"
           height={"70px"}
-          src="/media/download.png"
+          src={user?.avi || "/media/avatar.png"}
           alt="sss"
         />
-        <h3>It Is Horse</h3>
+        <h3>horse</h3>
         <div className="d-flex gap-5">
         <i className="fa-solid fa-circle-info fa-2xl" style={{color: "#63b81e",}}></i>
         </div>
@@ -55,81 +89,37 @@ function Chat() {
       <hr />
       {/* chat */}
       <div className=" chatcontent">
-        <div className="message">
-          <img src="./media/avatar.png" alt="" />
-          <div className="texts">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores at
-            soluta dolor ea magni repudiandae maiores. Voluptatem tenetur odit
-            animi autem, iste illum rem libero. Recusandae esse veniam a
-            distinctio?
-            <span>a min ago</span>
-          </div>
-        </div>
-        <div className="message">
-          <img src="./media/avatar.png" alt="" />
-          <div className="texts">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores at
-            soluta dolor ea magni repudiandae maiores. Voluptatem tenetur odit
-            animi autem, iste illum rem libero. Recusandae esse veniam a
-            distinctio?
-            <span>a min ago</span>
-          </div>
-        </div>
-        <div className="message owner">
-          <div className="texts">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores at
-            soluta dolor ea magni repudiandae maiores. Voluptatem tenetur odit
-            animi autem, iste illum rem libero. Recusandae esse veniam a
-            distinctio?
-            <span>a min ago</span>
-          </div>
-        </div>
-        <div className="message">
-          <img src="./media/avatar.png" alt="" />
-          <div className="texts">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores at
-            soluta dolor ea magni repudiandae maiores. Voluptatem tenetur odit
-            animi autem, iste illum rem libero. Recusandae esse veniam a
-            distinctio?
-            <span>a min ago</span>
-          </div>
-        </div>
-        <div className="message owner">
-          <div className="texts">
-            <img src="./media/engin-akyurt-Hlkuojv_P6I-unsplash.jpg" height={'100px'} width={'100px'} alt="" />
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores at
-            soluta dolor ea magni repudiandae maiores. Voluptatem tenetur odit
-            animi autem, iste illum rem libero. Recusandae esse veniam a
-            distinctio?
-            <span>a min ago</span>
-          </div>
-        </div>
-        <div className="message">
-          <img src="./media/avatar.png" alt="" />
-          <div className="texts">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores at
-            soluta dolor ea magni repudiandae maiores. Voluptatem tenetur odit
-            animi autem, iste illum rem libero. Recusandae esse veniam a
-            distinctio?
-            <span>a min ago</span>
-          </div>
-        </div>
+        
+       {chat?.messages?.map((message)=>(
+         <div className="message " key={message?.createdAt}>
+         <div className="texts">
+          {message.img&&
+           <img src={message.img} height={'100px'} width={'100px'} alt="" />
+          }
+          <p className="text-dark">
+            {message.envelope}
+          </p>
+           {/* <span>{message}</span> */}
+         </div>
+       </div>
+      
+       ))
+       }
         <div ref={endRef}></div>
       </div>
       
      
 
       {/* bottom */}
-      <div className="inputbar ">
+      <div className="inputbar">
         <img width={"20px"} height={"20px"} src="/media/img.png" alt="" />
-        <img width={"20px"} height={"20px"} src="/media/camera.png" alt="" />
-        <img width={"20px"} height={"20px"} src="/media/mic.png" alt="" />
         <input
           type="text"
           className="form-control  w-75"
           placeholder="type a message..."
+          onChange={(e)=>setEnvelope(e.target.value)}
         />
-        <button className="btn text-light">
+        <button className="btn text-light" onClick={handleSend}>
           {" "}
           <i className="fa-solid fa-paper-plane text-light"></i> Send
         </button>
