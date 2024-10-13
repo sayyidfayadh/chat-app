@@ -39,8 +39,8 @@ function Chat() {
     <div className="chat">
       {chatId&&(<>
       {/* header */}
-      <div className="header p-3 d-flex align-items-center justify-content-between">
-      <button className="btn btn-light btn-sm" onClick={deSelectChat}><i className="fa fa-arrow-left" ></i></button>
+      <div className="header p-3 d-flex align-items-center justify-content-around">
+      <button className="btn btn-danger rounded-pill btn-sm" onClick={deSelectChat}><i className="fa fa-arrow-left" ></i></button>
         <img
           className="avi"
           height={"70px"}
@@ -49,7 +49,7 @@ function Chat() {
         />
         <h3>It Is Horse</h3>
         <div className="d-flex gap-5">
-          <img className="" height={"20px"} src="/media/info.png" alt="info" />
+        <i className="fa-solid fa-circle-info fa-2xl" style={{color: "#63b81e",}}></i>
         </div>
       </div>
       <hr />
@@ -96,7 +96,7 @@ function Chat() {
         </div>
         <div className="message owner">
           <div className="texts">
-            <img src="./media/engin-akyurt-Hlkuojv_P6I-unsplash.jpg" alt="" />
+            <img src="./media/engin-akyurt-Hlkuojv_P6I-unsplash.jpg" height={'100px'} width={'100px'} alt="" />
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores at
             soluta dolor ea magni repudiandae maiores. Voluptatem tenetur odit
             animi autem, iste illum rem libero. Recusandae esse veniam a
