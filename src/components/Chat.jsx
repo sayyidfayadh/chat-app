@@ -45,21 +45,33 @@ function Chat() {
       })
       
       const userIDs=[currentUser.id,user.id] //array of ids to update sender and receiver using for each
-     userIDs.forEach(async(id)=>{
-      const userChatsRef=doc(db,"userchats",id)
+      const userChatsRef=doc(db,"userchats",user.id)
       const userChatsSnap=await getDoc(userChatsRef)
       if(userChatsSnap.exists()){
         const userChatsData=userChatsSnap.data()
         // console.log(userChatsData);
         const chatIndex=userChatsData.chats.findIndex(chatofchats=>chatofchats.chatId===chatId)
          userChatsData.chats[chatIndex].lastMessage=envelope
-         userChatsData.chats[chatIndex].isSeen=id===currentUser.id?true:false; //id conditionally to set seen for sender and not seen for user
+         userChatsData.chats[chatIndex].isSeen=false; //id conditionally to set seen for sender and not seen for user
          userChatsData.chats[chatIndex].updatedAt= Date.now() 
          await updateDoc(userChatsRef,{
           chats:userChatsData.chats,
-         })       
+         })  
+        
       }
-     })
+      const userChatsRef2=doc(db,"userchats",currentUser.id)
+      const userChatsSnap2=await getDoc(userChatsRef2)
+      const userChatsData2=userChatsSnap2.data()
+      // console.log(userChatsData);
+      const chatIndex2=userChatsData.chats.findIndex(chatofchats=>chatofchats.chatId===chatId)
+       userChatsData2.chats[chatIndex2].lastMessage=envelope
+       userChatsData2.chats[chatIndex2].isSeen=false; //id conditionally to set seen for sender and not seen for user
+       userChatsData2.chats[chatIndex2].updatedAt= Date.now() 
+       await updateDoc(userChatsRef2,{
+        chats:userChatsData2.chats,
+       })       
+     
+      
     } catch (error) {
       console.error(error);
     }
