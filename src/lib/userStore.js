@@ -33,11 +33,14 @@ export const useUserStore = create((set) => ({
       const docRef = doc(db, "userchats", cid);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        set({currentChat:docSnap.data()})
-        console.log("inside");
+        console.log("inside fetch");
+        
+        const chatData = docSnap.data(); // Store the result in a variable
+      set({ currentChat: chatData });  // Update the state
+      console.log(chatData);
       }
       else{
-        console.log("inside");
+        // console.log("inside");
         set({currentChat:''})
       }
     } catch (error) {
