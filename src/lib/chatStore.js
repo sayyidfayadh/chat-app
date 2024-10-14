@@ -40,7 +40,7 @@ export const useChatStore = create((set) => ({
     console.log("insideseen");
     set((state) => ({
       ...state, 
-      isSeen:true;
+      isSeen:true
     }));
   }
   ,
