@@ -37,9 +37,10 @@ export const useChatStore = create((set) => ({
     }
   },
   changeSeen: () => {
+    console.log("insideseen");
     set((state) => ({
       ...state, 
-      isSeen: !state.isSeen
+      isSeen:true;
     }));
   }
   ,

@@ -52,7 +52,7 @@ function Chat() {
         // console.log(userChatsData);
         const chatIndex=userChatsData.chats.findIndex(chatofchats=>chatofchats.chatId===chatId)
          userChatsData.chats[chatIndex].lastMessage=envelope
-         userChatsData.chats[chatIndex].isSeen=false; //id conditionally to set seen for sender and not seen for user
+        //  userChatsData.chats[chatIndex].isSeen=false; //id conditionally to set seen for sender and not seen for user
          userChatsData.chats[chatIndex].updatedAt= Date.now() 
          await updateDoc(userChatsRef,{
           chats:userChatsData.chats,
@@ -66,7 +66,7 @@ function Chat() {
       // console.log(userChatsData2);
       const chatIndex2=userChatsData2.chats.findIndex(chatofchats=>chatofchats.chatId===chatId)
        userChatsData2.chats[chatIndex2].lastMessage=envelope
-       userChatsData2.chats[chatIndex2].isSeen=false; //id conditionally to set seen for sender and not seen for user
+      //  userChatsData2.chats[chatIndex2].isSeen=false; //id conditionally to set seen for sender and not seen for user
        userChatsData2.chats[chatIndex2].updatedAt= Date.now() 
        await updateDoc(userChatsRef2,{
         chats:userChatsData2.chats,
