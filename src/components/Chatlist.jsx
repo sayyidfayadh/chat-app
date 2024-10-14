@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Chatlist.css";
 import AddUser from "./AddUser";
 import { useUserStore } from "../lib/userStore";
-import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { Button } from "react-bootstrap";
 import { useChatStore } from "../lib/chatStore";
@@ -12,23 +12,28 @@ function Chatlist() {
   const [addContact,setAddContact]=useState(false);
   const { currentUser } = useUserStore();
   const {selectChat}=useChatStore()
-  //chat fetch
   useEffect(() => {
     const unsub = onSnapshot(
+        //chat fetch
+
       doc(db, "userchats", currentUser.id),
       async (res) => {
+      
         const items = res.data().chats;
         const promises = items.map(async (item) => {
+          //userfetch
           const userDocRef = doc(db, "users", item.receiverId);
           const userDocSnap = await getDoc(userDocRef);
           const user = userDocSnap.data();
+          // merge
           return { ...item, user };
         });
         const chatData = await Promise.all(promises);
+        // console.log(chatData);
         setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt));
       }
     );
-    // console.log(chats);
+   
 
     return () => {
       unsub();
@@ -37,7 +42,24 @@ function Chatlist() {
   // console.log(chats);
   const handleSelect=async (chat)=>{
     console.log("hi");
-    selectChat(chat.chatId,chat.user)
+   const userChats=chats.map((item)=>{
+    const {user,...rest}=item;
+    return rest;
+   })
+   const  chatIndex=userChats.findIndex(item=>item.chatId===chat.chatId)
+    userChats[chatIndex].isSeen=true;
+    const userChatsRef=doc(db,"userchats",currentUser.id)
+    try {
+      await updateDoc(userChatsRef,{
+        chats:userChats,
+        
+      })
+      selectChat(chat.chatId,chat.user)
+    } catch (error) {
+      console.log(error);
+      
+    }
+    
   }
   return (
     <>

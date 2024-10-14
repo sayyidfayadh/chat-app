@@ -5,7 +5,7 @@
 }
 
 .chatcontent{
-  padding: 1px;
+  padding: px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -14,12 +14,14 @@
 
 .message{
   display: flex;
+  align-items: center;
   font-size: 1.8vh;
   max-width: 70%;
   gap: 10px;
   .texts{
     flex: 1;
-    display: flex;flex-direction: column;
+    display: flex;
+    align-items: center;
     border-radius: 10px;
   padding: 10px;
   background-color: rgba(255, 255, 255, 0.966);
@@ -38,8 +40,11 @@ span{
 } 
 }
   &.owner{
+    width: 100%;
     align-self: flex-end;
     color: black;
+    
+    
   }
   
   img{

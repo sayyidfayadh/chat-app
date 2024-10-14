@@ -81,7 +81,7 @@ function Chat() {
           src={user?.avi || "/media/avatar.png"}
           alt="sss"
         />
-        <h3>horse</h3>
+        <h3>{user?.username}</h3>
         <div className="d-flex gap-5">
         <i className="fa-solid fa-circle-info fa-2xl" style={{color: "#63b81e",}}></i>
         </div>
@@ -91,14 +91,14 @@ function Chat() {
       <div className=" chatcontent">
         
        {chat?.messages?.map((message)=>(
-         <div className="message " key={message?.createdAt}>
+         <div className={message.senderId==currentUser.id?"message owner":"message"}  key={message?.createdAt}>
          <div className="texts">
           {message.img&&
            <img src={message.img} height={'100px'} width={'100px'} alt="" />
           }
-          <p className="text-dark">
+          <h6 className="text-dark ">
             {message.envelope}
-          </p>
+          </h6>
            {/* <span>{message}</span> */}
          </div>
        </div>
