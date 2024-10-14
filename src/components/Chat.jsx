@@ -61,16 +61,17 @@ function Chat() {
       }
       const userChatsRef2=doc(db,"userchats",currentUser.id)
       const userChatsSnap2=await getDoc(userChatsRef2)
+      if(userChatsSnap2.exists()){
       const userChatsData2=userChatsSnap2.data()
-      // console.log(userChatsData);
-      const chatIndex2=userChatsData.chats.findIndex(chatofchats=>chatofchats.chatId===chatId)
+      // console.log(userChatsData2);
+      const chatIndex2=userChatsData2.chats.findIndex(chatofchats=>chatofchats.chatId===chatId)
        userChatsData2.chats[chatIndex2].lastMessage=envelope
        userChatsData2.chats[chatIndex2].isSeen=false; //id conditionally to set seen for sender and not seen for user
        userChatsData2.chats[chatIndex2].updatedAt= Date.now() 
        await updateDoc(userChatsRef2,{
         chats:userChatsData2.chats,
        })       
-     
+      }
       
     } catch (error) {
       console.error(error);

@@ -8,10 +8,11 @@ import { Button } from "react-bootstrap";
 import { useChatStore } from "../lib/chatStore";
 
 function Chatlist() {
+  
   const [chats, setChats] = useState([]);
   const [addContact,setAddContact]=useState(false);
-  const { currentUser } = useUserStore();
-  const {selectChat}=useChatStore()
+  const { currentUser,fetchUserChats ,} = useUserStore();
+  const {selectChat,changeSeen}=useChatStore()
   useEffect(() => {
     const unsub = onSnapshot(
         //chat fetch
@@ -41,6 +42,7 @@ function Chatlist() {
   }, [currentUser.id]);
   console.log(chats);
   const handleSelect=async (chat)=>{
+    fetchUserChats(chat.receiverId)
     console.log("hi");
    const userChats=chats.map((item)=>{
     const {user,...rest}=item;
@@ -48,8 +50,7 @@ function Chatlist() {
    })
    console.log(userChats);
    
-   const  chatIndex=userChats.findIndex(item=>item.chatId===chat.chatId)
-    userChats[chatIndex].isSeen=true;
+   changeSeen()
     const userChatsRef=doc(db,"userchats",currentUser.id)
     try {
       await updateDoc(userChatsRef,{

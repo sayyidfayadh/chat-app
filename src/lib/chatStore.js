@@ -33,10 +33,16 @@ export const useChatStore = create((set) => ({
         user,
         isCurrentUserBlocked:false,
         isReceiverBlocked:false
-
       })
     }
   },
+  changeSeen: () => {
+    set((state) => ({
+      ...state, 
+      isSeen: !state.isSeen
+    }));
+  }
+  ,
   deSelectChat:()=>{
     set(state=>({...state,chatId:null}))
   },
