@@ -45,15 +45,15 @@ function Chat() {
       })
       
       const userIDs=[currentUser.id,user.id] //array of ids to update sender and receiver using for each
-     userIDs.forEach(async (id)=>{
-      const userChatsRef=doc(db,"userchats",currentUser.id)
+     userIDs.forEach(async(id)=>{
+      const userChatsRef=doc(db,"userchats",id)
       const userChatsSnap=await getDoc(userChatsRef)
       if(userChatsSnap.exists()){
         const userChatsData=userChatsSnap.data()
         // console.log(userChatsData);
         const chatIndex=userChatsData.chats.findIndex(chatofchats=>chatofchats.chatId===chatId)
          userChatsData.chats[chatIndex].lastMessage=envelope
-         userChatsData.chats[chatIndex].isSeen=id===currentUser.id?true:false; //id conditionally to set seen for sender and not seen for user
+         userChatsData.chats[chatIndex].isSeen=id===id.id?true:false; //id conditionally to set seen for sender and not seen for user
          userChatsData.chats[chatIndex].updatedAt= Date.now() 
          await updateDoc(userChatsRef,{
           chats:userChatsData.chats,

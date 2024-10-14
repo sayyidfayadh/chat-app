@@ -39,13 +39,15 @@ function Chatlist() {
       unsub();
     };
   }, [currentUser.id]);
-  // console.log(chats);
+  console.log(chats);
   const handleSelect=async (chat)=>{
     console.log("hi");
    const userChats=chats.map((item)=>{
     const {user,...rest}=item;
     return rest;
    })
+   console.log(userChats);
+   
    const  chatIndex=userChats.findIndex(item=>item.chatId===chat.chatId)
     userChats[chatIndex].isSeen=true;
     const userChatsRef=doc(db,"userchats",currentUser.id)
