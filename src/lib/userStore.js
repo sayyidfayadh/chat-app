@@ -4,7 +4,7 @@ import { db } from "./firebase";
 export const useUserStore = create((set) => ({
   currentUser:null,
   isLoading:true,
-  currentChat:null,
+  // currentChat:null,
   fetchUserInfo:async (uid)=>{
     if(!uid){
       set({currentUser:null,isLoading:false})
@@ -24,29 +24,29 @@ export const useUserStore = create((set) => ({
       
       return set({currentUser:null,isLoading:false})
     }
-  } ,
-  fetchUserChats:async(cid)=>{
-    console.log(cid);
+  } 
+  // fetchUserChats:async(cid)=>{
+  //   console.log(cid);
     
-    try {
+  //   try {
       
-      const docRef = doc(db, "userchats", cid);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        console.log("inside fetch");
+  //     const docRef = doc(db, "userchats", cid);
+  //     const docSnap = await getDoc(docRef);
+  //     if (docSnap.exists()) {
+  //       console.log("inside fetch");
         
-        const chatData = docSnap.data(); // Store the result in a variable
-      set({ currentChat: chatData });  // Update the state
-      console.log(chatData);
-      }
-      else{
-        // console.log("inside");
-        set({currentChat:''})
-      }
-    } catch (error) {
-      console.log(error );
+  //       const chatData = docSnap.data(); // Store the result in a variable
+  //     set({ currentChat: chatData });  // Update the state
+  //     console.log(chatData);
+  //     }
+  //     else{
+  //       // console.log("inside");
+  //       set({currentChat:''})
+  //     }
+  //   } catch (error) {
+  //     console.log(error );
       
-    }
+  //   }
      
-  }
+  // }
 }))

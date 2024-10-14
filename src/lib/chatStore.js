@@ -36,14 +36,14 @@ export const useChatStore = create((set) => ({
       })
     }
   },
-  changeSeen: () => {
-    console.log("insideseen");
-    set((state) => ({
-      ...state, 
-      isSeen:true
-    }));
-  }
-  ,
+  // changeSeen: () => {
+  //   console.log("insideseen");
+  //   set((state) => ({
+  //     ...state, 
+  //     isSeen:true
+  //   }));
+  // }
+  // ,
   deSelectChat:()=>{
     set(state=>({...state,chatId:null}))
   },

@@ -42,21 +42,31 @@ function Chatlist() {
   }, [currentUser.id]);
   console.log(chats);
   const handleSelect=async (chat)=>{
-    fetchUserChats(chat.receiverId)
-    console.log("hi");
-   const userChats=chats.map((item)=>{
-    const {user,...rest}=item;
-    return rest;
-   })
-   console.log(userChats);
-   
-   changeSeen()
+    const updatedChats = chats.map((item) => {
+      if (item.chatId === chat.chatId &&!item.isSeen) {
+        return {
+          ...item,
+          isSeen: true, // Mark the selected chat as seen
+        };
+      }
+      return item;
+    });
+    // console.log("hi");
+  setChats(updatedChats) 
     const userChatsRef=doc(db,"userchats",currentUser.id)
     try {
       await updateDoc(userChatsRef,{
-        chats:userChats,
+        chats:updatedChats,
         
       })
+      const otherUserChatsRef = doc(db, "userchats", chat.receiverId);
+      const otherUserChatsSnap = await getDoc(otherUserChatsRef);
+      if (otherUserChatsSnap.exists()) {
+        const otherUserChats = otherUserChatsSnap.data().chats.map((item) =>
+          item.chatId === chat.chatId ? { ...item, isSeen: true } : item
+        );
+        await updateDoc(otherUserChatsRef, { chats: otherUserChats });
+      }
       selectChat(chat.chatId,chat.user)
     } catch (error) {
       console.log(error);
@@ -93,7 +103,7 @@ function Chatlist() {
             {chat.user.username} <br />
             <span className="fs-6" style={{ fontWeight: "lighter" }}>
      <div className="d-flex align-items-center gap-2">      
-       <i class="fa-solid fa-check-double fa-xs" style={{color:chat?.isSeen?"skyblue":"greenyellow"}}></i>
+       <i className="fa-solid fa-check-double fa-xs" style={{color:chat?.isSeen?"skyblue":"greenyellow"}}></i>
      {chat?.lastMessage}</div> 
             </span>{" "}
           </p>
